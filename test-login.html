@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Test</title>
+</head>
+<body>
+    <h1>Manual Login Test</h1>
+    <button onclick="testLogin()">Test Login</button>
+    <div id="result"></div>
+
+    <script>
+    async function testLogin() {
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: 'admin@demo.com',
+                    password: 'password'
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                localStorage.setItem('auth_token', data.token);
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: green;">Login successful! Token stored.</p>' +
+                    '<p>User: ' + data.user.name + '</p>' +
+                    '<p>Role: ' + data.user.role + '</p>' +
+                    '<button onclick="goToDashboard()">Go to Dashboard</button>';
+            } else {
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: red;">Login failed: ' + data.message + '</p>';
+            }
+        } catch (error) {
+            document.getElementById('result').innerHTML = 
+                '<p style="color: red;">Error: ' + error.message + '</p>';
+        }
+    }
+    
+    function goToDashboard() {
+        window.location.href = '/';
+    }
+    </script>
+</body>
+</html>
