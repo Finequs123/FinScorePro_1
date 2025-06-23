@@ -1,0 +1,129 @@
+✅ Module 5: AI Scorecard Generator
+________________________________________
+🎯 Module Purpose
+This module enables Power Users to generate credit scorecards using AI by selecting:
+•	Products
+•	Risk Appetite
+•	Data Sources
+•	Processing Preferences
+•	Outcome Objectives
+The AI will create a scientifically weighted, band-based scorecard with explainability, score breakdown, and risk categorization logic.
+________________________________________
+🔧 Bugs / Issues Identified
+1. Incorrect Weight Total ( >100%)
+•	When users select multiple data sources, weights exceed 100%.
+•	Fix: Dynamically cap cumulative score to 100%. Introduce rebalancing if needed.
+________________________________________
+2. Incomplete Variable Band View
+•	Current UI shows variable scores but omits score distribution within bands (e.g., Age: <18 = 0, 18–30 = 5, etc.).
+•	Fix: Add expandable table for each variable to show bands and respective scores.
+________________________________________
+3. Live Approval Rate Simulation Not Aligned
+•	Approval rate simulation doesn’t match user-selected risk appetite (e.g., 65% output when 20% was expected).
+•	Fix: Align simulation engine to user input on desired approval rate. Adjust scoring thresholds or variable bands accordingly.
+________________________________________
+4. Scorecard Output File Not Opening
+•	PDF/Excel downloads are corrupted.
+•	Fix: Implement proper file writing logic. Ensure MIME type and file closure is correctly handled for both formats.
+________________________________________
+✨ Enhancement Requirements
+✅ A. UI & Menu Enhancements
+Feature	Instruction
+Menu Renaming	Change from “AI Generator” → “AI Scorecard Generator”
+Product Selection Format	Convert dropdown to checkbox format to allow multi-select
+________________________________________
+✅ B. Structured 5-Step Flow
+1. Data Sources + Quality Tab
+•	Checkboxes for:
+o	Internal App Data
+o	Bureau Data (with list: CIBIL, CRIF)
+o	Bank Statement Data
+o	Alt Data (Telco, Device, Utility, Social)
+•	User must:
+o	Choose sources
+o	Provide data availability/quality %
+•	✅ Working Fine
+________________________________________
+2. Data Processing & Capability Tab
+•	Allows user to:
+o	Opt-in/out of bureau parsing
+o	Choose derived fields (DPD, FOIR, etc.)
+o	Enable/disable missing value imputation
+•	✅ Working Fine
+________________________________________
+3. Outcome Preferences Tab
+•	Inputs:
+o	Target Approval Rate (slider/input)
+o	Desired Sensitivity
+o	Risk Appetite (Conservative / Moderate / Aggressive)
+•	✅ Working Fine except for bug in simulation mentioned above
+________________________________________
+4. Scorecard Generation Page
+•	Button: “Generate AI Scorecard”
+•	Show loading indicator + success toast
+•	Before generation, show:
+o	Summary of selected inputs
+o	"Confirm Inputs" dialog
+•	✅ Working fine
+________________________________________
+5. Post-Generation Scorecard Output UI
+a. Scorecard Summary Tab
+•	Show:
+o	Total Categories
+o	Weight % per category
+o	Final score range (min/max)
+o	Approval target, actual achieved
+b. Variables Tab
+•	Category-wise layout
+•	Each variable with:
+o	Assigned weight
+o	Type (continuous / categorical)
+o	Score range
+o	Button → Expand to show band-level scoring
+c. Band-Level Scoring Tab
+•	For each variable:
+•	Example: Variable = AGE (Score = 10)
+•	┌────────────┬───────────┐
+•	│ Band       │ Score     │
+•	├────────────┼───────────┤
+•	│ < 18       │ 0         │
+•	│ 18–30      │ 5         │
+•	│ 31–60      │ 10        │
+•	│ > 60       │ 2         │
+•	└────────────┴───────────┘
+d. Explainability + Efficiency Matrix Tab
+•	Auto-generate explanation with:
+o	What the scorecard prioritizes (top variables)
+o	How it aligns with risk appetite
+o	Accuracy, Sensitivity, and Lift metrics
+o	Use business language (e.g., "Applicants with high income and low DPD are prioritized")
+e. Download Options
+•	PDF & Excel with:
+o	Scorecard structure
+o	Variable bands
+o	Explainability summary
+o	Optional: JSON format (for system-to-system handoff)
+________________________________________
+✅ C. Efficiency Matrix (New Requirement)
+Metric	Description
+Approval Rate Achieved	% of applicants in A + B buckets
+Disbursal Rate	Based on test data (if available)
+Decline Accuracy	% of D bucket who would have been non-starters
+Lift	How well scorecard separates good/bad applicants
+________________________________________
+✅ D. Technical Implementation Notes
+Feature	Replit Instruction
+Score weight enforcement	Prevent >100%, auto-scale if needed
+Variable Band Storage	Use nested object structure with weights
+Auto Explainability Engine	Template-based NLP summarizer
+Export Format	PDF and Excel via xlsx and pdfkit libraries
+Version Control	Save each AI scorecard with metadata: version ID, timestamp, user
+________________________________________
+✅ Acceptance Criteria
+•	AI-generated scorecard has:
+o	Logical weights (summing to 100%)
+o	Bands visible under each variable
+o	Approval simulation matches risk appetite
+o	Explainability + efficiency matrix
+•	Downloads open correctly
+•	Scorecard is versioned, savable, editable

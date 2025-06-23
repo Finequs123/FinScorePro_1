@@ -1,0 +1,166 @@
+Replit Developer Instruction — Final Resolution Prompt for AI Scorecard Generator
+Hello Team,
+
+This is a final comprehensive instruction to help you fully and finally resolve the issues in the AI Scorecard Generator module. Please read every part carefully.
+
+The current state still breaks core functionality, even though Excel export is working. The scorecard generation logic and display are still incorrect and misleading.
+
+🚨 Summary of Key Issue:
+The scorecard creation flow (Steps 1–6) reflects all user selections (7 data sources, dynamic category weights, variable inclusion), BUT the final output in Step 7 and Excel download is:
+
+Not reflecting dynamic categories or variables
+
+Only shows 3 hardcoded categories, regardless of selections
+
+Fails to generate JSON summary
+
+This is a core functional bug, not a UI cosmetic glitch.
+
+🔍 Step-by-Step Evidence (Attached Screenshots Referenced)
+Step 1–6: User Selections
+
+Product: Personal Loan
+
+Segment: Salaried, Gig Workers
+
+Geography: Pan India
+
+Data Sources Selected: 7 (Credit, Income, Banking, Behavioral, Geography, Mobile, Utility)
+
+Quality: Mixed (Always/Usually Available)
+
+Model Confidence: Medium
+
+Weight Config: All 7 categories with custom weights
+
+Variables: 15+ mapped (e.g. Credit Score, BounceCount, Transaction Volume, etc.)
+
+Scorecard Name: A22
+
+Step 7 (Final Output):
+
+Incorrectly shows only 3 categories:
+
+Banking & Transaction History
+
+Mobile & Telecom Data
+
+Utility & Government Payments
+
+JSON download fails
+
+Excel only shows 7 variables — not fully mapped to original 7 categories
+
+Live simulation works but rationale summary is misleading
+
+🔧 Root Cause:
+You are likely still pulling hardcoded categories from the backend or config file, instead of dynamically generating final categories from:
+
+Step 4: Weight Configuration
+
+Step 5: Variable Selection
+
+Step 6: Score Simulation config
+
+Additionally, the JSON logic is broken and AI rationale is not accurately mapped to what user configured.
+
+✅ Functional Fix — What You MUST Implement Now
+🔹 A. Dynamic Category Mapping (Critical)
+Final output should only display the exact categories selected in Steps 2–4
+
+Category names, weights, and variables must match what user configured
+
+NO hardcoded fallback categories (Banking, Mobile, Utility) unless that’s all the user picked
+
+🔹 B. Variable-to-Category Mapping
+Each variable should be shown under the correct category with:
+
+Variable name
+
+Scoring logic (band/rule)
+
+Weight within category
+
+🔹 C. AI Rationale Text
+Must dynamically reflect:
+
+Selected data sources
+
+Risk appetite
+
+Geography
+
+Avoid generic rationale like “Moderate risk appetite used...” — make it data-driven and personalized per scorecard
+
+🔹 D. Simulation Consistency
+Approval Rate shown in final step must match score buckets (e.g., A+B grades)
+
+Default rate shown must reflect selected risk level
+
+🔹 E. Fix JSON Summary Download
+JSON must include:
+
+Scorecard metadata (name, owner, creation time)
+
+Full config (product, segments, data source quality)
+
+All categories with weights and variables
+
+AI rationale text
+
+Simulation results (approval %, bucket distribution)
+
+Variable-level rules (if available)
+
+🔹 F. Edge Case Handling
+If user selects < 3 categories, system must still show dynamic results
+
+If user selects 7+ but weights only 3, only those 3 should appear
+
+Don’t mix hardcoded logic with rule-based generation
+
+🧪 How to Test / Replicate This Bug
+Log in to [Demo Admin] and go to AI Scorecard Generator
+
+Create a scorecard with:
+
+Product: Personal Loan
+
+Segment: Salaried, Gig
+
+Geography: Pan India
+
+Data Sources: At least 7 selected (varied availability)
+
+Assign weight to all categories (e.g., 12% x 8)
+
+Select at least 15 variables across all categories
+
+Simulate at 20% target approval
+
+Generate Scorecard
+
+On final screen, check:
+
+Are 7 categories shown?
+
+Are all selected variables shown under correct categories?
+
+Is the AI rationale text updated dynamically?
+
+Does Excel match config?
+
+Does JSON download?
+
+Repeat with 3 and 5 category selection to test dynamic handling
+
+✅ Final Output Expectations
+Output Section	What Should Be Shown
+Scorecard Summary	Name, owner, date, target rate, risk appetite
+Categories	Only the ones selected by user
+Category Weight Table	Name, weight %, # of variables, logic type
+Variable Table	Category-wise list of variables with scoring logic
+AI Rationale	Customized summary including data availability and selections
+Live Simulation	Approval %, Grade-wise %, Default Rate
+JSON Summary Download	Complete metadata and config as described
+Excel Export	Category-wise variable listing, scoring logic, rationale

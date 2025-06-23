@@ -1,0 +1,91 @@
+Enhancement Instructions – Safe UI-Only Update for AI Scorecard Generator
+🚨 DO THIS AND NOTHING ELSE – HANDLE WITH CARE
+The AI Scorecard Generator is now working as expected. The following two improvements are purely UI-level changes and should not impact backend scorecard logic or AI computations in any way. Proceed with the exact steps below only.
+
+🧩 PART 1: Repurpose "Weight Configuration" Screen
+🔄 Step Name: Weight Configuration
+🔧 Objective: Convert from misleading weight sliders to a read-only review of data category spread, ensuring the user understands that AI logic overrides this screen downstream.
+✅ Instructions:
+Rename the Step Title from Weight Configuration to:
+👉 Data Source Review & Load Distribution
+
+Make all category sliders read-only (non-editable).
+
+Optional: Replace with visual bars if needed.
+
+Sliders should not impact AI logic.
+
+Add the following help text at the top of the screen:
+
+“This view helps you confirm that data from selected sources is fairly distributed across scoring categories. Actual scoring logic and final weights are determined by the AI engine in the next step.”
+
+This screen must retain its current function of displaying selected data source categories and relative load — no new calculations needed.
+
+📊 PART 2: Add New Screen – “Scorecard Insights & AI Summary”
+🧠 Step Name: Scorecard Insights (new screen at the end)
+📍 Location: Immediately after the current final screen (post download)
+✅ Purpose:
+Visually summarize the scorecard's AI-driven logic and outcome for users — charts only, no logic modification.
+
+✅ UI Elements to Include:
+Pie Chart – Category Weight Distribution
+
+Input: Final weights used in AI scorecard (from AI output config)
+
+Title: Category Weight Distribution
+
+Bar Chart – Top 10 Important Variables
+
+Input: AI model variable importance
+
+Title: Top 10 Variables by Importance
+
+Histogram – Score Band Distribution
+
+X-axis: Score ranges (0–20, 20–40, etc.)
+
+Y-axis: Number of customers
+
+Title: Scorecard Spread (Simulated)
+
+Approval Simulation Chart –
+
+2 Bars: Target Approval Rate, Achieved Match Rate
+
+Pull from simulation summary
+
+Title: Target vs Achieved Approval Rate
+
+Disbursement Efficiency –
+
+Cumulative Lift or Success Rate by Score Band
+
+Title: Disbursement Efficiency by Score Band
+
+AI Rationale Box –
+
+Use existing rationale text from final output
+
+Title: AI Rationale Summary
+
+[Optional] Button –
+
+Label: Download Visual Summary (PDF)
+
+Function: Download this insights screen as PDF (optional, only if feasible)
+
+✅ Mandatory Safeguard:
+Do not make any changes to:
+
+AI scoring engine
+
+Variable mappings or band logic
+
+Score simulation
+
+Final output structure
+
+Download functionality
+
+This is a non-functional, visual enhancement only. Keep the logic, weight computation, score generation, and output file formats untouched.
+

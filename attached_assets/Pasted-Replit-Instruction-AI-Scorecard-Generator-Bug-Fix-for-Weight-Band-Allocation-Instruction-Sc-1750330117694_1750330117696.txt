@@ -1,0 +1,26 @@
+Replit Instruction: AI Scorecard Generator – Bug Fix for Weight & Band Allocation
+📌 Instruction Scope: This document contains only the precise bug fixes Replit must make to the AI Scorecard Generator module. Replit should not modify any other UI, flow, logic, or data structures unrelated to the specific issues outlined below.
+
+🔧 Step 4 – Weight Configuration (Category Level)
+In this step, the AI auto-assigns percentage weights to each data source category based on user inputs (e.g., product, segment, data source availability). These weights collectively sum to 100%.
+✅ Expected Behavior:
+- The total weight across all categories must equal 100%. (This is already working correctly.)
+- The sum of all variable-level weights under each category must exactly match the category’s assigned weight.
+❌ Current Bug:
+The total of variable weights under a given category (e.g., Credit Bureau = 21%) does not add up to that category’s assigned weight. This results in logical inconsistencies in scoring distribution.
+✅ Fix Required:
+- Implement a validation and auto-normalization mechanism to ensure that the sum of all variable weights under a category equals the category weight.
+- If mismatch occurs, alert the user or auto-adjust weights proportionally with a toggle (e.g., 'Auto-normalize').
+
+🔧 Step 5 – Variable & Band Setup (Scoring Bands)
+In this step, AI assigns scores to individual variables and breaks them into bands (ranges) with point values.
+✅ Expected Behavior:
+- Each variable has a maximum assigned score (e.g., Credit Score = 5).
+- When scoring an application, only one band will match, and the corresponding score must be applied.
+- The maximum score across bands should NOT be the sum of all individual band values.
+❌ Current Bug:
+Replit currently calculates the variable score as the sum of all bands under that variable. This is incorrect.
+✅ Fix Required:
+- Ensure that the score assigned to a variable at runtime is based on the single matching band only.
+- Add frontend/backend validations to prevent sum of band scores from exceeding the variable’s max points.
+📌 Do not make changes to any other module or logic in this screen. This ticket is strictly for bug fix.

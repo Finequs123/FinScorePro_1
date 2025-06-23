@@ -1,0 +1,187 @@
+Here is the **final, comprehensive Replit Engineering Instruction** for the **AI Scorecard Generator** module. This guide covers the **current bugs**, the **expected behavior**, and **enhancements** to be implemented, fully aligned with both your earlier document and the screenshots shared.
+
+---
+
+## ✅ MODULE: AI Scorecard Generator
+
+### 🎯 **Purpose**
+
+To allow users to define and generate an AI-based scorecard using pre-configured inputs and options. Output must be:
+
+* Explainable,
+* Accurate in logic (buckets, weights),
+* Aligned with user preferences,
+* Downloadable in proper PDF/Excel formats.
+
+---
+
+### 🔧 **BUGS TO FIX**
+
+#### **1. Occupation Selection (Regression Bug)**
+
+* **Problem:** Occupation field, earlier supporting multi-select, is now a dropdown (single selection).
+* **Fix:** Revert to **multi-select with checkboxes or chips** as before.
+
+#### **2. Missing Geography Field**
+
+* **Problem:** Geography selection is missing from current UI.
+* **Fix:** Restore geography field with dropdown/multi-select as per old implementation.
+
+#### **3. Variable Band Score View Missing**
+
+* **Problem:** Variable-level scoring (e.g., Age = 10%) is shown, but no breakdown by band (e.g., Age <18 = 0, 18–30 = 5, etc.).
+* **Fix:** Add a second layer of band-based scoring UI for each variable:
+
+  * Allow adding/editing ranges
+  * Validate that sub-bands add up to total variable score
+
+#### **4. Simulation Output Mismatch**
+
+* **Problem:** Output of “Live Approval Simulation” not matching input target (e.g., target 20% → output 65%).
+* **Fix:**
+
+  * Adjust simulation engine to calibrate using selected inputs and AI score thresholds.
+  * Apply logic to match approval rate with predicted risk score distribution.
+
+#### **5. Explainability Output Unclear**
+
+* **Problem:** Explainability tab appears cryptic/technical (e.g., JSON-style, variables without readable logic).
+* **Fix:**
+
+  * Replace with human-readable scoring summary:
+
+    ```
+    Score = (Age Band: +10) + (Occupation: +8) + (Credit Score: +20) ...
+    Risk Bucket: B → Recommend
+    Reason: Good repayment history, low FOIR
+    ```
+
+#### **6. Score Exceeds 100% on Selecting New Source**
+
+* **Problem:** Total score weight goes above 100% when additional sources selected (e.g., Bureau, Banking, etc.).
+* **Fix:**
+
+  * Auto-adjust other category weights to stay within 100% OR prevent adding sources without redistributing.
+  * Add real-time validation and warning.
+
+#### **7. Output Downloads Not Working**
+
+* **Problem:** PDF/Excel files either corrupt or fail to open.
+* **Fix:**
+
+  * Ensure:
+
+    * Files are generated with proper headers, MIME types
+    * Export includes all fields (variables, scores, bands, final bucket, explainability)
+    * File download triggers after generation, not prematurely
+
+---
+
+### ✨ **FUNCTIONAL ENHANCEMENTS**
+
+#### ✅ **A. UI/UX Navigation**
+
+* Use **wizard-style interface**: each tab must retain previous state when navigating forward/backward.
+* Show breadcrumbs or tab steps clearly.
+
+#### ✅ **B. Tab-wise Breakdown of Functional Requirements**
+
+##### **1. Product & Segment Selection**
+
+* Support:
+
+  * Multi-product selection (checkbox)
+  * Segment type (e.g., Salaried / Self-Employed)
+
+##### **2. Data Source & Quality**
+
+* Selection of:
+
+  * Source types: Bureau, Banking, Mobile, Employment, Application Form
+  * Quality sliders: Completeness %, Accuracy %, Timeliness %
+
+##### **3. Capability Matching**
+
+* Show:
+
+  * Which model/scorecard best fits the selected data quality and sources
+
+##### **4. Weight Configuration**
+
+* Support:
+
+  * Total = 100%
+  * Auto-normalize or manual override
+  * Visual slider or numeric entry for each:
+
+    ```
+    Application Data: 25%
+    Bureau Score: 30%
+    Mobile Signals: 20%
+    Employment: 10%
+    Banking: 15%
+    ```
+
+##### **5. Variable View**
+
+* For each source, list variables with total score (e.g., Age = 10)
+* Add **band definition UI**:
+
+  ```
+  Age:
+  - <18 = 0
+  - 18–30 = 5
+  - 30–60 = 10
+  - >60 = 0
+  ```
+
+##### **6. Score Simulation**
+
+* Preview:
+
+  * Approval rate vs. target
+  * Score distribution across buckets (A/B/C/D)
+* Simulate with random or user-provided profiles
+
+##### **7. Final Preference & Scorecard Generation**
+
+* Capture name, owner, segment
+* Allow Generate Scorecard action
+* Save version (e.g., v1.0), support overwrite or clone
+
+---
+
+### 📥 **EXPECTED OUTPUT (Downloadables)**
+
+* ✅ PDF: Summary of scoring logic, variables, weights, explainability, segment
+* ✅ Excel:
+
+  * Columns: Variable | Assigned Score | Band Details | Comments
+  * Optional: Include weights and segments
+
+---
+
+### 🔐 **VALIDATION RULES**
+
+| Rule                        | Description                                            |
+| --------------------------- | ------------------------------------------------------ |
+| Total Weight = 100%         | Cannot proceed unless total weight is 100%             |
+| Band Sum = Variable Score   | Each band total should equal the parent variable score |
+| Source Selection Constraint | Cannot add new source unless score is redistributed    |
+
+---
+
+### ✅ **ACCEPTANCE CRITERIA**
+
+* [ ] Occupation is multi-select
+* [ ] Geography is visible
+* [ ] Band scores per variable are shown and editable
+* [ ] Approval simulation matches logic
+* [ ] Explainability is user-friendly
+* [ ] PDF and Excel files open and show valid structure
+* [ ] All screens retain selections while navigating
+* [ ] Score weight logic is enforced
+
+---
+
+Would you like this turned into a downloadable Word document as part of the Replit Engineering Pack?

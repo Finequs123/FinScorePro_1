@@ -1,0 +1,227 @@
+**FinScoreIQPro – Consolidated Functional BRD (Business Requirement Document)**
+
+---
+
+### 📘 Document Purpose
+
+This BRD captures the full functional scope of the FinScoreIQPro platform, consolidating all build phases executed in Replit. It provides detailed module descriptions, user flows, field-level logic, role-based access, integration touchpoints, and evolution stages from AI scorecard generation to testing, deployment, and optimization.
+
+---
+
+### ✅ Phase-Wise Functional Modules
+
+---
+
+### 🟦 Phase 1: Organization and User Management
+
+#### 1.1 Organization Setup
+
+* Fields: Org Name, Code, Type (NBFC, DSA, Bank, Aggregator, Fintech), Contact Email
+* CRUD operations with unique org code validation
+
+#### 1.2 User Management
+
+* Fields: Name, Email, Password, Role (Admin, Power User, Approver, DSA)
+* Org assignment required
+* Role-based access:
+
+  * Admin: Full access
+  * Power User: Scorecard control
+  * Approver: Approve only
+  * DSA: Scoring only
+
+#### 1.3 Authentication
+
+* JWT or session-based login
+* Logout, password hashing, and user-specific access control
+
+---
+
+### 🟩 Phase 2: AI Scorecard Generator
+
+#### 2.1 Multi-Step Questionnaire
+
+* Steps:
+
+  1. Institution Details (with Bank added)
+  2. Product & Segment (e.g., PL for Salaried)
+  3. Risk Preferences (e.g., Desired Disbursement Ratio, Risk Appetite)
+  4. Data Sources:
+
+     * Intent Signals: QR scans, Referral, Mobile usage, UPI, etc.
+     * Income Sources: Salary slips, Bank statements, GST, Alt credit
+  5. Review & Generate
+
+#### 2.2 Output Logic
+
+* Generates AI draft scorecard JSON
+* Allocates variables into categories with weights
+* Bucket mapping: A (≥90), B (80–89.99), C (60–79.99), D (<60)
+* Stored with: org\_id, product, segment, version, status = “Draft by AI”
+
+---
+
+### 🟨 Phase 3: Dynamic Scorecard Configurator
+
+#### 3.1 Scorecard Selection Panel
+
+* View scorecards by org/product/status
+* Actions: Edit, Clone, Archive, Delete
+
+#### 3.2 Category & Variable Weight Editing
+
+* Category weights must total 100%
+* Add/remove variables
+* Sliders/input boxes for weight config
+
+#### 3.3 Rule Editor
+
+* IF-THEN condition builder
+* Compound rules (e.g., Age > 25 AND < 45 = 10 pts)
+
+#### 3.4 Bucket Mapping Editor
+
+* Map score range to output buckets A/B/C/D
+
+#### 3.5 Conditional Logic Enforcement
+
+* Rules:
+
+  * If Segment = Salaried → Hide GST Returns, Property Docs
+  * If Segment = Informal → Enable Cash Flow, Alt Credit
+* Stored as `logic_constraints` in config JSON
+
+#### 3.6 Versioning and Role Control
+
+* Save as draft, clone, activate
+* Approval workflow for manual scorecards
+
+---
+
+### 🟧 Phase 4: Simulation & Scorecard Testing Engine
+
+#### 4.1 Bulk Upload for Simulation
+
+* Accepts Excel/CSV input
+* Applies selected scorecard logic
+* Returns bucket classification per row
+
+#### 4.2 Visualization
+
+* Bucket Distribution chart
+* Approval ratio vs actuals
+* Score spread (histogram or pie)
+
+#### 4.3 AI Recommendations
+
+* Based on simulation output:
+
+  * Adjust weights
+  * Fine-tune thresholds
+  * Eliminate noisy variables
+
+#### 4.4 Save as New Version
+
+* Allow user to clone adjusted config and push to activation path
+
+---
+
+### 🟪 Phase 5: A/B Testing Framework
+
+#### 5.1 Dual Scorecard Simulation
+
+* Select two versions (e.g., V1.1 and V1.2)
+* Run both on same data batch
+* Compare bucket-wise disbursement outcomes
+
+#### 5.2 Metrics Captured
+
+* Accuracy, Approval %, Disbursal %, Leakage %, Reject Rate
+* Recommended winner version with rationale
+
+#### 5.3 Auto-feedback Loop
+
+* Suggest variable to tweak or bucket to remap
+* Option to finalize and activate superior version
+
+---
+
+### 🟥 Phase 6: API Layer (Single & Bulk)
+
+#### 6.1 API for Single Record Scoring
+
+* Input: customer profile in JSON
+* Output: score, bucket, reason codes
+* Auth: API key with org/user validation
+
+#### 6.2 Bulk Scoring Endpoint
+
+* Accepts CSV via POST
+* Returns downloadable output file with results
+* Rate limits, payload size limits enforced
+
+#### 6.3 API Dashboard (Optional)
+
+* Track usage logs, response times, error rates
+
+---
+
+### 🟫 Phase 8: Markdown Documentation Module
+
+#### 8.1 Auto-generated Documentation
+
+* Markdown or Pandoc-based page
+* Includes field descriptions, rule sets, scorecard versions, APIs
+
+#### 8.2 Export Options
+
+* HTML, PDF, downloadable ZIP
+* Version-stamped and org-specific
+
+#### 8.3 Hosting & Linking
+
+* Option to link each scorecard to its doc page
+* Ideal for audit, partner integration, sandbox testing
+
+---
+
+### 🔐 Cross-Cutting Role Access Matrix
+
+| Module                 | Admin | Power User | Approver        | DSA            |
+| ---------------------- | ----- | ---------- | --------------- | -------------- |
+| Org & User Setup       | ✅     | ❌          | ❌               | ❌              |
+| AI Scorecard Generator | ✅     | ✅          | ❌               | ❌              |
+| Dynamic Configurator   | ✅     | ✅          | 🔒 View/Approve | ❌              |
+| Simulation/Test Engine | ✅     | ✅          | ✅               | ✅              |
+| A/B Testing            | ✅     | ✅          | ✅               | ✅              |
+| API Access             | ✅     | ✅          | ❌               | ✅ (if enabled) |
+| Markdown Docs          | ✅     | ✅          | ✅               | ❌              |
+
+---
+
+### 📦 Data Structure Summary
+
+#### Tables:
+
+* `organizations`: id, name, type, code
+* `users`: id, email, password\_hash, org\_id, role
+* `scorecards`: id, org\_id, product, segment, version, configJSON, status
+* `rules`: embedded per variable inside configJSON
+* `logic_constraints`: enforced during editing per segment
+* `simulation_results`: record\_id, scorecard\_id, score, bucket, suggestion
+* `api_logs`: id, org\_id, request\_time, status\_code, payload\_hash
+* `ab_tests`: id, scorecardA\_id, scorecardB\_id, result\_metrics, winner\_id
+* `docs_metadata`: id, org\_id, scorecard\_id, version, doc\_url
+
+---
+
+### 📜 Versioning and Audit (All Phases)
+
+* Every scorecard update/version is stored with metadata
+* Statuses: Draft, Awaiting Approval, Active, Archived
+* Actions logged: Created, Edited, Simulated, Approved, Activated
+* API logs, simulation run metadata, A/B test comparisons also retained
+
+---
+
+*This BRD reflects the complete end-to-end system vision and can be handed off to tech teams, platform integrators, or funding stakeholders.*

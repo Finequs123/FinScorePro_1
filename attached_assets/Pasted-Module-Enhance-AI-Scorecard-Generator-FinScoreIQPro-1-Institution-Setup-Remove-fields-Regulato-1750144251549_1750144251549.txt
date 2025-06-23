@@ -1,0 +1,122 @@
+Module: Enhance AI Scorecard Generator – FinScoreIQPro
+1. Institution Setup
+Remove fields:
+
+Regulatory License Number
+
+Target AUM
+
+Retain all other fields such as Institution Name, Type, Founded Year, etc.
+
+2. Product Configuration
+a. Target Customer Segment
+Change to multi-select checklist
+
+Allow selection of multiple segments (e.g., Salaried, Self-Employed, MSMEs, Gig Workers)
+
+b. Geographic Focus
+Multi-select dropdown with values:
+
+json
+Copy
+Edit
+[
+  "Pan India",
+  "Metro Cities",
+  "Tier 1 Cities",
+  "Tier 2 Cities",
+  "Tier 3 Cities",
+  "Rural Markets",
+  "Semi-Urban Areas",
+  "Urban + Semi-Urban Mix",
+  "North India",
+  "South India",
+  "East India",
+  "West India",
+  "Central India",
+  "North-East India",
+  "Specific State Focus",
+  "Custom Geography (Specify)"
+]
+If “Specific State Focus” is selected → show nested dropdown of all Indian States/UTs
+
+If “Custom Geography (Specify)” is selected → show free-text input box
+
+3. Data Sources + Data Availability & Quality
+a. Data Source Selection (Multi-select checklist)
+json
+Copy
+Edit
+[
+  "Credit Bureau",
+  "Income Data",
+  "Employment / Occupation",
+  "Banking Transactions",
+  "GST",
+  "Tax Data",
+  "Telecom",
+  "Utility",
+  "Ecommerce",
+  "Mobile Usage",
+  "Founder & Partner Profile",
+  "Other Data Sources"
+]
+If “Other Data Sources” is selected:
+
+Show multi-line text input
+
+Each item entered behaves like a standard data source (with same logic below)
+
+b. For Each Selected Data Source:
+Display the following block:
+
+Question: Data availability for [source]
+Radio buttons:
+
+Always Available
+
+Usually Available
+
+Sometimes Available
+
+Rarely Available
+
+Not Available
+
+Auto-display (non-editable):
+
+Typical Variables (e.g., income, employer, tenure)
+
+Market Availability (e.g., High, Medium, Low)
+
+Example for Telecom:
+
+Typical Variables: recharge value, frequency, call pattern, location pinning
+
+Market Availability: High – especially for prepaid users
+
+4. Data Processing Capability (Global Settings)
+These are system-level dropdowns (not per data source):
+
+Field	Dropdown Options
+Credit Bureau Access	Full Access, Limited Access, No Access
+Bank Statement Analysis Capability	Advanced (12+ months), Basic (3–6 months), None
+Current Data Processing	Automated with APIs, Semi-automated, Manual
+
+❌ Remove any “Additional Data Sources” dropdown here — already handled in Section 3.
+
+5. Risk Parameters
+Remove section: “Data Source Weightage”
+
+AI will auto-derive scoring weights based on selected data sources and inputs
+
+6. AI-Based Scorecard Generation
+Once all sections are configured, AI generates a scorecard:
+
+Viewable in a separate “Scorecard Configuration” page
+
+Sections: Variables, Auto-Weights, Risk Buckets, Thresholds
+
+Allow edits if needed
+
+Save status: Draft or Final Version

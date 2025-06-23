@@ -1,0 +1,84 @@
+Here is the **“North Star Vision Note”** for Replit — crafted to give them clarity on the goal of the `AI Scorecard Generator` module while setting boundaries around changes:
+
+---
+
+## 🧭 FinScoreIQPro – AI Scorecard Generator Module
+
+**Vision Note for Replit Developer Team**
+
+---
+
+### 📌 Background
+
+`FinScoreIQPro` is an enterprise-grade credit scoring system designed for financial institutions. It has multiple modules — however, our current focus is exclusively on the **AI Scorecard Generator** module.
+
+---
+
+### 🎯 Objective
+
+The `AI Scorecard Generator` is intended to allow users to dynamically create custom credit scorecards based on inputs such as:
+
+* Product type
+* Target segment
+* Geography
+* Data availability and quality
+* Target approval rate
+* Risk appetite
+
+The system should then:
+
+1. **Generate a dynamic scorecard** that reflects these selections.
+2. **Run simulations** to estimate approval rates and risk.
+3. **Provide clear AI rationale and recommendations** for tuning.
+
+---
+
+### ❌ Current Limitations
+
+While the flow and UI steps are well-structured, the actual scorecard logic is currently:
+
+* Not responsive to the inputs selected
+* Not using any AI/ML to assign weights, score bands, or logic
+* Not delivering actionable insights or simulation recommendations
+
+Additionally, **some critical bugs** like scorecard export failure and non-functioning simulation logic exist.
+
+---
+
+### ✅ Our Plan
+
+We are going to upgrade the module **step-by-step** using precise tasks, which we will provide **one at a time**. Each task will include:
+
+* What to change
+* What the expected output is
+* Clear instruction to **not modify any other module, screen, or function**
+
+---
+
+### 🔒 Boundary Condition
+
+> Please do not make any changes to other modules, code sections, or UIs outside of the task explicitly assigned.
+> Unintended changes (like dropdowns turning into single-selects, or removed fields) must be strictly avoided.
+
+---
+
+### 🧱 Implementation Approach
+
+You will receive **micro-level implementation tickets**, starting with:
+
+* Fixing the scorecard export bug
+* Adding bucket segmentation logic
+* Enhancing simulation outputs
+* And so on…
+
+These will be shared only **after your acknowledgement** of this vision note.
+
+---
+
+### 👤 Point of Contact
+
+The user will work with you directly and validate each task. No action should be taken unless explicitly specified in that task.
+
+---
+
+Let me know if you’d like any edits before we send this off to Replit. Once approved, I’ll prepare **Task 1: Fix Export Bug**.

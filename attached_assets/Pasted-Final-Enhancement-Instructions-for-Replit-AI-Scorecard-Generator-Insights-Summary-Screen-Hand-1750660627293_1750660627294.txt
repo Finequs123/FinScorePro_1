@@ -1,0 +1,70 @@
+Final Enhancement Instructions for Replit (AI Scorecard Generator – Insights & Summary Screen)
+Handle with extreme care – DO NOT modify any other screen, logic, or functionality outside the scope defined below.
+
+🎯 Objective
+Enhance the “Scorecard Insights & AI Summary” screen to correct minor display issues and add visual clarity without modifying any core scorecard generation or backend logic.
+
+✅ MANDATORY FIXES (VISUAL + LABELS)
+Fix Scorecard Spread (Simulated)
+
+Issue: All score buckets (A to D) show “0% Approval”.
+
+Fix: Replace static “0% Approval” with:
+
+Either use actual bucket distribution from simulation output,
+
+Or display message:
+“Simulated spread shown for illustration. Actual score distribution available in Excel download.”
+
+Top 10 Variables – Clarify Scale & Context
+
+Add a short explanatory note below the chart:
+“Variable importance reflects relative predictive strength used by the AI model.”
+
+Category Weight Colors – Avoid Confusion
+
+Ensure that each category has a distinct color hue.
+
+Currently, both "Credit Bureau Data" and "Alternative Data Sources" are red.
+
+Use visually distinct and colorblind-friendly palette (at least 7–8 hues).
+
+Achieved vs Target Approval Rate
+
+Ensure Achieved Rate shown here reflects actual simulated results.
+
+If real value is unavailable, display a static placeholder with note:
+“Approval rate shown for reference. Check Excel for detailed simulation.”
+
+✨ OPTIONAL NON-BREAKING ENHANCEMENTS 
+Variable Importance within Category (Drilldown Tooltip)
+
+On hover over a variable bar, show a tooltip like:
+“CIBIL Score contributes 45% of total Credit Bureau weight”
+
+Download PDF Summary Button
+
+Add a button next to Excel Download:
+“Download PDF Summary”
+
+Content: Snapshot of this visual screen with weights, importance, approval bars, and rationale.
+
+Dynamic Rationale Enhancement (Optional)
+
+Add a smart suffix to the AI rationale like:
+“...based on selected sources, the model prioritizes Credit History and Income Stability for your Moderate risk appetite.”
+
+🔒 Important Constraints (Do Not Violate)
+❌ Do NOT change any logic used in scorecard generation, rule-based weight allocation, or final simulation engine.
+
+❌ Do NOT touch Configuration screen, Category screen, or Export logic.
+
+❌ Do NOT add new screens or steps — this enhancement is limited to Scorecard Insights & AI Summary page only.
+
+Once implemented, please confirm:
+
+All elements from above have been included.
+
+Download Excel & JSON Summary still work without change.
+
+Scorecard navigation is unaffected.
